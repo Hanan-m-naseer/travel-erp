@@ -1,15 +1,12 @@
-import express from 'express';
-import makeCallback from './makeCallback.js';
-import {
-  getRegionController,
-} from './regionController.js';
+// import express from 'express';
+// import makeCallback from './makeCallback.js';
+// import {
+//   getRegionController,
+// } from './regionController.js';
 
-const router = express.Router();
+// const router = express.Router();
 
 
-router.post(
-  '/get_region',
-  makeCallback(getRegionController)
-);
+// router.get( '/', getRegionController );
 
-export default router;
+// export default router;
