@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import userRoutes from './modules/users/index.js';
 import regionRoutes from './modules/region/index.js';
+import menuRoutes from "./modules/menu/index.js";
+
 import 'dotenv/config';
 
 const app = express();
@@ -9,8 +11,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/users', userRoutes);
-
 app.use('/region', regionRoutes);
+
+app.use("/api/menus", menuRoutes);
 
 app.get('/', (req,res) =>{
     res.json({
