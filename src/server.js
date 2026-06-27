@@ -3,7 +3,7 @@ import cors from 'cors';
 import userRoutes from './modules/users/index.js';
 import regionRoutes from './modules/region/index.js';
 import menuRoutes from "./modules/menu/index.js";
-import cityRoutes from './routes/city/index.js';
+import cityRoutes from "./modules/city/index.js";
 
 import 'dotenv/config';
 

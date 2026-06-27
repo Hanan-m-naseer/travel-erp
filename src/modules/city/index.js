@@ -1,12 +1,10 @@
-import { pool } from '../../config/db.js';
-import { cityQueries } from './persistance/deleteCityQuery.js';
-import { deleteCityDbFactory } from './persistance/deleteCityDb.js';
-import { deleteCityUsecaseFactory } from './usecase/deleteCityUsecase.js';
-import { deleteCityControllerFactory } from './controller/deleteCityController.js';
+import express from "express";
+import makeCallback from "../../common/helpers/makeCallback.js";
+import { deleteCityController, createCityController } from "./controller/index.js";
 
+const router = express.Router();
 
-const deleteCityDb = deleteCityDbFactory({ pool, cityQueries });
+router.delete("/delete_city", makeCallback(deleteCityController));
+router.post("/create_city",makeCallback(createCityController));
 
-const deleteCityUsecase = deleteCityUsecaseFactory({ deleteCityDb });
-
-export const deleteCityController = deleteCityControllerFactory({ deleteCityUsecase });
+export default router;
