@@ -1,8 +1,8 @@
 import createCityEntityFactory from "../entities/cityEntity.js";
 
-const createCityEntity = createCityEntityFactory();
 
-export const createCityUsecaseFactory = ({ createCityDb }) => {
+
+export const createCityUsecaseFactory = ({ createCityDb, createCityEntity }) => {
 
   return async function createCityUsecase({ source, ...objCityBodyData }) {
   

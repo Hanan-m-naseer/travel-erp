@@ -1,4 +1,5 @@
-import createCityEntityFactory from "./cityEntity";
+import createCityEntityFactory from "./cityEntity.js";
 
 let createCityEntity = createCityEntityFactory();
+
 export{ createCityEntity };
