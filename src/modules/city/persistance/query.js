@@ -60,7 +60,6 @@ const objQueries = {
           WHERE {WHERE_CONDITION}
           {ORDER_BY}
           {LIMITS}
-
 `
   },
 

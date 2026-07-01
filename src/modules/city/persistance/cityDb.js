@@ -31,12 +31,16 @@ export function getListCityDbFactory({ pool, objQueries }) {
     }
 
     const client = await pool.connect();
-
+  
     try {
-      const result = await client.query(
+
+       const finalQuery = multiReplace(
         objQueries.objFetchList.strQuerySelectCityList,
-        arrParams
+        objReplaceKeys
       );
+
+     const result = await client.query(finalQuery, arrParams);
+     
       return {
         arrList: result.rows,
         intTotalCount: result.rows.length > 0 ? result.rows[0].intTotalCount : 0
@@ -77,7 +81,7 @@ export function createCityDbFactory({ pool, objQueries }) {
       const intPk = insertResult.rows[0].pk_bint_city_id;
 
       const detail = await client.query(
-        objQueries.objFetchList.strQuerySelectCityById,
+        objQueries.objFetchList.strQuerySelectById,
         [intPk]
       );
       return {
@@ -93,6 +97,70 @@ export function createCityDbFactory({ pool, objQueries }) {
   throw error;
   }finally {
       client.release();
+    }
+  };
+}
+
+export function updateCityDbFactory({ pool, objQueries }) {
+  return async function updateCityDb({
+    strConnection,
+    intCityPk,
+    strCity,
+    intCountryId,
+    intStateId,
+    strCityCode2,
+    intUserId
+  }) {
+
+    const client = await pool.connect();
+
+    try {
+
+      await client.query("BEGIN");
+
+      const before = await client.query(
+        objQueries.objFetchList.strQuerySelectById,
+        [intCityPk]
+      );
+
+      let objOldValue = before.rows;
+
+      if (!objOldValue[0]) {
+        throw new Error("city_not_found");
+      }
+
+      await client.query(
+        objQueries.objUpdate.strQueryUpdateNewValues,
+        [
+          strCity,
+          intCountryId,
+          intStateId,
+          strCityCode2,
+          intUserId,
+          new Date(),
+          intCityPk
+        ]
+      );
+
+      const updated = await client.query(
+        objQueries.objFetchList.strQuerySelectById,
+        [intCityPk]
+      );
+
+      await client.query("COMMIT");
+
+      return updated.rows[0];
+
+    } catch (error) {
+
+      await client.query("ROLLBACK");
+
+      if (error.constraint) {
+        throw new Error("update_city_db_error");
+      }
+      throw error;
+    } finally {
+        client.release();
     }
   };
 }
