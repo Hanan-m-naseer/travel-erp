@@ -22,32 +22,31 @@ export default function getListCityUsecaseFactory({ getListCityDb }) {
 
        const arrList = await getListCityDb({
         strConnection,
-        
 
-        intOffSet: intOffset,
-        intPerPage,
+        intOffset: intOffset,
+        intLimit: intPerPage,
 
-        strActive: objSortActiveKeys[active] || 'ct.str_city_name',
-        strDirection: direction,
+        strSortBy: objSortActiveKeys[active] || 'ct.str_city_name',
+        strSortOrder: direction,
 
         intFilterCountry,
         intFilterState,
         strFilterCity: strCityName
-      });
-      
-      const intTotalCount = arrList?.[0]?.intTotalCount || 0;
+        });
+            
+    const intTotalCount = arrList?.intTotalCount || 0;
     return {
         objPagination: {
-          intPerPage,
-          intPageOffset,
-          intTotalCount
+            intPerPage,
+            intPageOffset,
+            intTotalCount
         },
-        arrList,
+        arrList: arrList.arrList,
         objSort: {
-          active,
-          direction
+            active,
+            direction
         }
-      };
+        };
     } catch (error) {
       throw new Error("get_list_city_usecase_error: " +error.message);
     }

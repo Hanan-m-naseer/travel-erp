@@ -1,4 +1,4 @@
-export function deleteCityUsecaseFactory({ deleteCityDb }) {
+export default function deleteCityUsecaseFactory({ deleteCityDb }) {
   return async function deleteCityUsecase({ source, arrPkDelete }) {
 
     try {

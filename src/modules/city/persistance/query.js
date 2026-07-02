@@ -1,4 +1,4 @@
-const objQueries = {
+export const objQueries = {
   objCreate: {
     strQueryInsertCityTbl:`
     INSERT INTO tbl_city (
@@ -126,5 +126,3 @@ const objQueries = {
 }
 
 }
-
-export default objQueries;

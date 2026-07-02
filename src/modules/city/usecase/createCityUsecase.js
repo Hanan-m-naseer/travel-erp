@@ -1,6 +1,4 @@
-import createCityEntityFactory from "../entities/cityEntity.js";
-
-export const createCityUsecaseFactory = ({ createCityDb, createCityEntity }) => {
+export default function createCityUsecaseFactory({ createCityDb, createCityEntity }) {
 
   return async function createCityUsecase({ source, ...objCityBodyData }) {
   
@@ -23,7 +21,7 @@ export const createCityUsecaseFactory = ({ createCityDb, createCityEntity }) => 
       return result;
 
     }catch (error){
-      throw new Error("create_city_usecase_error: " + error.message);
+      throw error;
     }
   };
 };

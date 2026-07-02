@@ -1,3 +1,5 @@
+import multiReplace from "../../../common/helpers/multiReplace.js";
+
 export function getListCityDbFactory({ pool, objQueries }) {
   return async function getListCityDb({
     strConnection,
@@ -40,7 +42,7 @@ export function getListCityDbFactory({ pool, objQueries }) {
       );
 
      const result = await client.query(finalQuery, arrParams);
-     
+
       return {
         arrList: result.rows,
         intTotalCount: result.rows.length > 0 ? result.rows[0].intTotalCount : 0
