@@ -1,3 +1,8 @@
+/**
+ * Usecase Index
+ * - Injects DB and entity dependencies into usecase factories
+ * - Creates ready-to-use usecases
+ */
 import { deleteCityDb, createCityDb, updateCityDb, getListCityDb } from "../persistance/index.js";
 import createCityUsecaseFactory from "./createCityUsecase.js";
 import updateCityUsecaseFactory from "./updateCityUsecase.js";

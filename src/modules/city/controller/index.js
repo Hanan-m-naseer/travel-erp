@@ -1,3 +1,10 @@
+/**
+ * Controller Composition Layer
+ * - Injects usecases into controller factories
+ * - Exports ready-to-use controllers for routes
+ * Flow:
+ * Usecase → Injected into Controller Factory → Controller Instance → Exported to Routes
+ */
 import { deleteCityUsecase, createCityUsecase, updateCityUsecase, getListCityUsecase } from "../usecase/index.js";
 import { deleteCityControllerFactory, createCityControllerFactory, updateCityControllerFactory, getListCityControllerFactory } from "./cityController.js";
 

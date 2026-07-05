@@ -10,7 +10,7 @@ export default function createCityEntityFactory(){
         try{
             if(!strCity)
                 throw new Error("city name is missing");
-            if(!objCountry?.intPk)
+            if(!objCountry.intPk)
                 throw new Error("country missing");
             if(!strCityCode2)
                 throw new Error("City Code missing");

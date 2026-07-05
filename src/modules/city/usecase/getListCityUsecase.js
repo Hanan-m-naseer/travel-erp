@@ -4,15 +4,16 @@ export default function getListCityUsecaseFactory({ getListCityDb }) {
         objPagination: { intPageOffset = 0, intPerPage = 50 } = {},
     objSort: { active = 'slNo', direction = 'asc' } = {},
     objFilter: {
-      strCityName = '',
+      strCity = '',
       objCountry: { intPk: intFilterCountry = 0 } = {},
       objState: { intPk: intFilterState = 0 } = {}
     } = {}
   } = {}){
     try{
+        console.log({strConnection, intPageOffset, intPerPage, active, direction, strCity, intFilterCountry, intFilterState});
           const objSortActiveKeys = {
         slNo: 'ct.pk_bint_city_id',
-        strCityName: 'ct.str_city_name',
+        strCity: 'ct.str_city_name',
         strCityCode2: 'ct.str_city_code2',
         objCountry: 'co.vchr_country_name',
         objState: 'st.vchr_state_name'
@@ -20,19 +21,20 @@ export default function getListCityUsecaseFactory({ getListCityDb }) {
 
       const intOffset = intPageOffset * intPerPage;
 
+        //call the DB layer
        const arrList = await getListCityDb({
-        strConnection,
+            strConnection,
 
-        intOffset: intOffset,
-        intLimit: intPerPage,
+            intOffset,
+            intLimit: intPerPage,
 
-        strSortBy: objSortActiveKeys[active] || 'ct.str_city_name',
-        strSortOrder: direction,
+            strSortBy: objSortActiveKeys[active] || 'ct.str_city_name',
+            strSortOrder: direction,
 
-        intFilterCountry,
-        intFilterState,
-        strFilterCity: strCityName
-        });
+            intCountryId: intFilterCountry,
+            intFilterState,
+            strSearch: strCity
+            });
             
     const intTotalCount = arrList?.intTotalCount || 0;
     return {

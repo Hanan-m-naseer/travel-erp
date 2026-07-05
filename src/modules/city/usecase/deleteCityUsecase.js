@@ -14,6 +14,7 @@ export default function deleteCityUsecaseFactory({ deleteCityDb }) {
         throw new Error('no cities selected to delete');
       }
 
+    
       const result = await deleteCityDb({
         strConnection: source?.strConnection,
         arrPkDelete,

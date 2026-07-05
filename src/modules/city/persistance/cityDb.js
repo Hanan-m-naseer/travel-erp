@@ -7,10 +7,12 @@ export function getListCityDbFactory({ pool, objQueries }) {
     intLimit = 10,
     strSearch = '',
     intCountryId = 0,
+    intFilterState = 0,
     strSortBy = 'ct.str_city_name',
     strSortOrder = 'ASC'
   }) {
 
+    
     const objReplaceKeys = {
       '{WHERE_CONDITION}': "ct.chr_document_status = 'N'",
       '{ORDER_BY}': `ORDER BY ${strSortBy} ${strSortOrder}`,
@@ -32,6 +34,12 @@ export function getListCityDbFactory({ pool, objQueries }) {
       intPos++;
     }
 
+    if(intFilterState){
+      objReplaceKeys['{WHERE_CONDITION}'] += ` AND st.pk_bint_state_id = $${intPos} `;
+      arrParams.push(intFilterState);
+      intPos++;
+    }
+
     const client = await pool.connect();
   
     try {
@@ -40,7 +48,7 @@ export function getListCityDbFactory({ pool, objQueries }) {
         objQueries.objFetchList.strQuerySelectCityList,
         objReplaceKeys
       );
-
+console.log("final query:", finalQuery);
      const result = await client.query(finalQuery, arrParams);
 
       return {
@@ -80,6 +88,7 @@ export function createCityDbFactory({ pool, objQueries }) {
         ]
       );
 
+      //get the primary key of the newly inserted city
       const intPk = insertResult.rows[0].pk_bint_city_id;
 
       const detail = await client.query(
@@ -111,7 +120,8 @@ export function updateCityDbFactory({ pool, objQueries }) {
     intCountryId,
     intStateId,
     strCityCode2,
-    intUserId
+    intUserId,
+    datModified
   }) {
 
     const client = await pool.connect();
@@ -126,6 +136,11 @@ export function updateCityDbFactory({ pool, objQueries }) {
       );
 
       let objOldValue = before.rows;
+console.log(objOldValue);
+      if(datModified != objOldValue[0].datModified)
+      {
+        throw new Error("already modified")
+      }
 
       if (!objOldValue[0]) {
         throw new Error("city_not_found");
@@ -177,27 +192,27 @@ export function deleteCityDbFactory({ pool, objQueries }) {
 
     try {
 
-      // 1. Reference check (NEW)
-      const refCheck = await client.query(
-        objQueries.objReference.strQueryCheckCityReference,
-        [arrPkDelete]
-      );
+      // 1. Reference check 
+      // const refCheck = await client.query(
+      //   objQueries.objReference.strQueryCheckCityReference,
+      //   [arrPkDelete]
+      // );
 
-      let arrBrokenModules = [];
+      // let arrBrokenModules = [];
 
-      for (const row of refCheck.rows) {
-        if (Number(row.count) > 0) {
-          arrBrokenModules.push(row.module);
-        }
-      }
+      // for (const row of refCheck.rows) {
+      //   if (Number(row.count) > 0) {
+      //     arrBrokenModules.push(row.module);
+      //   }
+      // }
 
-      if (arrBrokenModules.length > 0) {
-        return {
-          intAffectedRows: 0,
-          strMessage: "city is already used",
-          arrModules: arrBrokenModules
-        };
-      }
+      // if (arrBrokenModules.length > 0) {
+      //   return {
+      //     intAffectedRows: 0,
+      //     strMessage: "city is already used",
+      //     arrModules: arrBrokenModules
+      //   };
+      // }
 
       const result = await client.query(
         objQueries.objDelete.strQuerySoftDeleteCityTbl,
