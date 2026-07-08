@@ -1,3 +1,5 @@
+import { errorHandler } from "./errorHandler.js";
+
 import express from 'express';
 
 function makeCallback(controller) {
@@ -39,6 +41,8 @@ function makeCallback(controller) {
     } catch (error) {
 
       console.log('async error', error.message);
+
+      await errorHandler(error, "Make Callback");
 
       res.status(500).send({
         success: false,
