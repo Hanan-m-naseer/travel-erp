@@ -15,3 +15,4 @@ export async function errorHandler(error, module = "Unknown Module") {
     `,
   });
 }
+

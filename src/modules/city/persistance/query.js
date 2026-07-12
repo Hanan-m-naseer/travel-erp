@@ -45,7 +45,7 @@ export const objQueries = {
             st.str_state_name AS "strStateName",
 
             json_build_object(
-              'intPk', co.pk_bint_country_id,
+              'intPk', co.pk_bint_country_id, 
               'strName', co.vchr_country_name
             ) AS "objCountry",
 

@@ -48,7 +48,7 @@ export function getListCityDbFactory({ pool, objQueries }) {
         objQueries.objFetchList.strQuerySelectCityList,
         objReplaceKeys
       );
-console.log("final query:", finalQuery);
+// console.log("final query:", finalQuery);
      const result = await client.query(finalQuery, arrParams);
 
       return {

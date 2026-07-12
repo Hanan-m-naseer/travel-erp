@@ -42,7 +42,7 @@ function makeCallback(controller) {
 
       console.log('async error', error.message);
 
-      await errorHandler(error, "Make Callback");
+      // await errorHandler(error, "Make Callback");
 
       res.status(500).send({
         success: false,

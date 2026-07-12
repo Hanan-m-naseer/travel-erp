@@ -15,13 +15,17 @@ export function getListCityControllerFactory({ getListCityUsecase }) {
         ...body
       });
 
-      console.log("get city list usecase result(controller):", result);
+      // console.log("get city list usecase result(controller):", result);
 
       return {
         body: result
       };
     } catch (error) {
-      console.error("Error in getListCityController:", error);
+
+      console.log("CONTROLLER ERROR TRIGGERED");
+
+      await errorHandler(error, "getListCityController");
+
       throw error;
     }
   };

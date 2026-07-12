@@ -1,4 +1,4 @@
-// import 'dotenv/config';
+import 'dotenv/config';
 // process.loadEnvFileSync('.env');
 import express from 'express';
 import cors from 'cors';
@@ -9,6 +9,7 @@ import userRoutes from './modules/users/index.js';
 import regionRoutes from './modules/region/index.js';
 import menuRoutes from "./modules/menu/index.js";
 import cityRoutes from "./modules/city/index.js";
+import authRoutes from "./modules/auth/index.js";
 
 
 
@@ -23,6 +24,7 @@ app.use('/region', regionRoutes);
 app.use("/api/menus", menuRoutes);
 
 app.use('/api/city', cityRoutes);
+app.use('/api/auth', authRoutes);
 
 
 app.get('/', (req,res) =>{
