@@ -23,7 +23,7 @@ function makeCallback(controller) {
 
       //pass the httpRequest object to the controller 
       const response = await controller(httpRequest);
-      console.log('controller response', response);
+      // console.log('controller response', response);
 
       //extract the response object and send the response
       const {

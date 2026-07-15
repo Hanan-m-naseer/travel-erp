@@ -14,7 +14,7 @@ return function authEntity({
 
 
         return Object.freeze({
-            getEmail: () => strEmail.trim(),
+            getUserEmail: () => strEmail.trim(),
             getPassword: () => strPassword
 
         });

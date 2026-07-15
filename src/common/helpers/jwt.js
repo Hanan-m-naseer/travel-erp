@@ -1,12 +1,19 @@
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET;
-
-const ACCESS_EXP_TIME = process.env.ACCESS_EXP_TIME || "15m";
-const REFRESH_EXP_TIME = process.env.REFRESH_EXP_TIME || "7d";
+const ACCESS_EXP_TIME =
+    process.env.ACCESS_EXP_TIME || "15m";
 
 
-export const jwtSign = ({ objPayload, strType = "ACCESS"}) => {
+const REFRESH_EXP_TIME =
+    process.env.REFRESH_EXP_TIME || "7d";
+
+
+export const jwtSign = ({
+    objPayload,
+    strPrivateKey,
+    strType = "ACCESS"
+}) => {
+
 
     const strExpTime =
         strType === "ACCESS"
@@ -16,21 +23,27 @@ export const jwtSign = ({ objPayload, strType = "ACCESS"}) => {
 
     return jwt.sign(
         objPayload,
-        JWT_SECRET,
+        strPrivateKey,
         {
+            algorithm: "RS256",
             expiresIn: strExpTime
         }
     );
 };
 
-export const jwtVerify = ({strToken}) => {
+
+
+export const jwtVerify = ({ strToken, strPublicKey}) => {
     return jwt.verify(
         strToken,
-        JWT_SECRET
+        strPublicKey,
+        {
+            algorithms: ["RS256"]
+        }
     );
 };
 
 
-export const jwtDecode = ({strToken}) => {
+export const jwtDecode = ({ strToken }) => {
     return jwt.decode(strToken);
 };

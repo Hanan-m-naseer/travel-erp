@@ -29,7 +29,7 @@ export function loginControllerFactory({ loginUsecase }) {
             const { body } = httpRequest;
 
             const result = await loginUsecase({
-                strUserName: body.strUserName,
+                strEmail: body.strEmail,
                 strPassword: body.strPassword
             });
             return {
